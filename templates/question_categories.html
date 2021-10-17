@@ -1,0 +1,913 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load poll_extras %}
+
+{% block content %}
+    <div class="container-fluid nav-div main-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--side-bar-->
+                    <div class="col-md-2 nav-home">
+                        <ul>
+                            <li class="active">
+                                <a href="#">
+                                    <h5><i class="fa fa-home"></i> Home</h5>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-book"></i>
+                                    Question</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#"><i aria-hidden="true" class="fa fa-quora"></i>New Questions</a></li>
+                                    <li><a href="#"><i aria-hidden="true" class="fa fa-quora"></i>Tranding Questions
+                                    </a>
+                                    </li>
+                                    <li><a href="#"><i aria-hidden="true" class="fa fa-quora"></i>Most read
+                                        Questions</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!---top questions--->
+                        <div class="col-md-12 padding0">
+                            <div class="col-md-12 top-div">
+                                <h4>Top Questions</h4>
+                            </div>
+                            <div class="col-md-12 top2-div">
+                                {% for i in object_list|top_ques %}
+                                    <div class="col-md-12 top1-div">
+                                        <h5>{{ i.title }}</h5>
+                                        <h6>{{ i.name.get_full_name }}</h6>
+                                        <a href="#"> <i aria-hidden="true"
+                                                        class="fa fa-commenting"></i>{{ i.answer.count }} Answers</a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <!---middle-tab--->
+                    <div class="col-md-7 middle-table">
+                        <ul class="nav nav-tabs nav-middle">
+                            <li class="active">
+                                <a data-toggle="tab" href="#recent_questions">Recent Questions</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#most_answered">Most Answered</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#questions">Questions bump</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#answer">Answers</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#most_visited">Most Visited</a>
+                            </li>
+                        </ul>
+                        <!--tab-content-->
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="recent_questions">
+                            {% cate_question cat_id all_ques as data %}
+                                {% for i in data %}
+
+                                    <div class="col-md-12 tabcontent-div">
+                                        <div class="seprator"></div>
+                                        <div class="col-md-2 padding0 tab-text dropdown">
+                                            <a class="dropbtn" href="#">
+                                                <img class="img-responsive" src="{{ i.name.image.url }}"/>
+                                            </a>
+                                            <div class="dropdown-content">
+                                                <div class="col-md-12 dropdown-image">
+                                                    <a>
+                                                        <img class="img-responsive"
+                                                             src="{% static 'img/author.jpg' %}"/>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-12 dropdown-name">
+                                                    <h6>Kamesh Rao</h6>
+                                                    <ul>
+                                                        <li>
+                                                            <img class="img-responsive"
+                                                                 src="{% static 'img/placeholder.svg' %}"/>
+                                                            <p>Gurgaon ,Haryana</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="col-md-12 dropdown-text">
+                                                    <a href="#"><i aria-hidden="true" class="fa fa-question-circle"></i>3
+                                                        Questions</a>
+                                                    <a href="#"><i aria-hidden="true" class="fa fa-commenting"></i>12
+                                                        Answers</a>
+                                                    <a href="#"><i aria-hidden="true" class="fa fa-eye"></i>146
+                                                        Points</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!---author-details-->
+                                        {#                                    {% for j in i %}#}
+                                        <div class="col-md-10 padding0">
+                                            <div class="col-md-12 author-details">
+                                                <h5>{{ i.name.get_full_name }}</h5>
+                                                <p>Asked: {{ i.created|date:"d-M-Y   h:i:s" }}</p>
+                                                {#                                                <p>{{ i.created|naturaltime }}</p>#}
+                                            </div>
+                                            <div class="col-md-12 author-quote">
+                                                <a href="{% url 'taskapp:detail_question' i.id %}">
+                                                    <h4>{{ i.title }}</h4></a>
+                                            </div>
+                                            <div class="col-md-12 padding0">
+                                                {#                                        <p class="author-para">In my local language (Bahasa Indonesia) there are no#}
+
+{#                                                verb-2 or past tense form as time tracker. So, I often forget to use the#}
+                                                {#                                            past form of verb when speaking english. I saw him last night (correct) I#}
+                                                {#                                            see him last night ...</p>#}
+                                            </div>
+                                            <div class="col-md-12 padding0">
+                                                <button class="author-button">English</button>
+                                                <button class="author-button">Language</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 answer-sec">
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-commenting"></i> 4
+                                                Answer</a>
+                                            <a href="#"><i aria-hidden="true" class="fa fa-eye"></i>1k Views</a>
+                                            <button>{{ i.answer.count }} Answer</button>
+                                        </div>
+                                        {#                                    {% endfor %}#}
+                                        <div class="col-md-12 answer1-sec">
+                                            <a href="#"><i aria-hidden="true" class="fa fa-arrow-circle-up"></i> Upvote
+                                                :1.5k</a>
+                                            <a class="answer2-sec" href="#"><i aria-hidden="true"
+                                                                               class="fa fa-arrow-circle-down"></i><i
+                                                    aria-hidden="true" class="fa fa-ellipsis-h"></i></a>
+                                        </div>
+                                        <form action="{% url 'taskapp:answer_create' %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="col-md-12 comment-div">
+                                                <div class="form-group mar-div">
+
+                                                    <input class="form-control" name="ans" placeholder="add comment"
+                                                           type="text"/>
+                                                    <input class="form-control" value="{{ i.id }}" name="question_id"
+                                                           type="hidden"/>
+                                                    <input class="form-control" name="name" value="{{ user.id }}"
+                                                           type="hidden"/>
+
+
+                                                    <button class="btncontrol">Add Comment</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!---answer-highlight-->
+                                        <div class="col-md-12 col-xs-12">
+                                            <div class="row ans1-added">
+                                                {% for j in i.answer.all %}
+                                                    <div class="col-md-12 answer-highlight ans-added">
+                                                        <div class="col-md-12 addcomment1">
+                                                            <a href="#"><img
+                                                                    src="{{ j.name.image.url }}"/> {{ j.name.get_full_name }}
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="col-xs-12 padding0">
+                                                            <p>{{ j.ans }}</p>
+
+                                                        </div>
+
+                                                    </div><p><b>{{ j.created|naturaltime }}</b></p>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <!-add-answer-->
+                                        {#                                    <div class="col-md-12 addcomment">#}
+                                        {#                                        <div class="col-md-12 addcomment1 padding0">#}
+                                        {#                                            <h5><img src="{% static 'img/author.jpg' %}"/>Kamesh Rao</h5>#}
+                                        {#                                        </div>#}
+                                        {#                                        <div class="form-group ">#}
+                                        {#                                            <textarea class="form-control text" id="comment" rows="5"></textarea>#}
+                                        {#                                        </div>#}
+                                        {#                                        <div class="col-md-12 addcomment2">#}
+                                        {#                                            <button>Submit</button>#}
+                                        {#                                            <a href="#"><h5>Save Draft</h5></a>#}
+                                        {#                                        </div>#}
+                                        {##}
+                                        {#                                    </div>#}
+                                    </div>
+
+                                {% endfor %}
+                                {#                            {% if is_paginated %}#}
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if page_obj.has_previous %}
+                                            <a href="?page=1">&laquo; first</a>
+                                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                        {% endif %}
+
+                                        <span class="current">
+                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                        </span>
+
+                                        {% if page_obj.has_next %}
+                                            <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                {#                            {% endif %}#}
+                            </div>
+                            <div class="tab-pane fade in" id="most_answered">
+                                {% for mostans in all_ques|most_ans %}
+                                    <div class="col-md-12 tabcontent-div">
+                                        <div class="col-md-2 padding0 tab-text dropdown">
+                                            <a class="dropbtn" href="#">
+                                                <img class="img-responsive" src="{{ mostans.name.image.url }}"/>
+                                            </a>
+                                            <div class="dropdown-content">
+                                                <div class="col-md-12 dropdown-image">
+                                                    <a>
+                                                        <img class="img-responsive"
+                                                             src="{% static 'img/author.jpg' %}"/>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-12 dropdown-name">
+                                                    <h6>Shubham Wadhwa </h6>
+                                                    <ul>
+                                                        <li>
+                                                            <img class="img-responsive"
+                                                                 src="{% static 'img/placeholder.svg' %}"/>
+                                                            <p>Gurgaon ,Haryana</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="col-md-12 dropdown-text">
+                                                    <a href="#"><i aria-hidden="true" class="fa fa-question-circle"></i>3
+                                                        Questions</a>
+                                                    <a href="#"><i aria-hidden="true" class="fa fa-commenting"></i>12
+                                                        Answers</a>
+                                                    <a href="#"><i aria-hidden="true" class="fa fa-eye"></i>146
+                                                        Points</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!---author-details-->
+
+                                        <div class="col-md-10 padding0">
+                                            <div class="col-md-12 author-details">
+                                                <h5>{{ mostans.name.get_full_name }}</h5>
+                                                <p>{{ mostans.created| naturaltime }}</p>
+                                            </div>
+
+                                            <div class="col-md-12 author-quote">
+                                                <a href="#"><h4>{{ mostans.title }}</h4></a>
+                                            </div>
+                                            {#                                            <div class="col-md-12 padding0">#}
+                                            {#                                                <p class="author-para">In my local language (Bahasa Indonesia) there are#}
+                                            {#                                                    no#}
+                                            {#                                                    verb-2 or past tense form as time tracker. So, I often forget to use#}
+                                            {#                                                    the#}
+                                            {#                                                    past form of verb when speaking english. I saw him last night#}
+                                            {#                                                    (correct)#}
+                                            {#                                                    I#}
+                                            {#                                                    ee him last night ...</p>#}
+                                            {#                                            </div>#}
+                                            <div class="col-md-12 padding0">
+                                                <button class="author-button">English</button>
+                                                <button class="author-button">Language</button>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 answer-sec">
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-commenting"></i>4 Answer</a>
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-eye"></i>1k Views</a>
+                                            <button>{{ mostans.answer.count }} Answer</button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                <!----second-que-->
+                                {#                                <div class="col-md-12 tabcontent-div">#}
+                                {#                                    <div class="col-md-2 padding0 tab-text dropdown">#}
+                                {#                                        <a class="dropbtn" href="#">#}
+                                {#                                            <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>#}
+                                {#                                        </a>#}
+                                {#                                        <div class="dropdown-content">#}
+                                {#                                            <div class="col-md-12 dropdown-image">#}
+                                {#                                                <a>#}
+                                {#                                                    <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>#}
+                                {#                                                </a>#}
+                                {#                                            </div>#}
+                                {#                                            <div class="col-md-12 dropdown-name">#}
+                                {#                                                <h6>Kamesh Rao</h6>#}
+                                {#                                                <ul>#}
+                                {#                                                    <li>#}
+                                {#                                                        <img class="img-responsive"#}
+                                {#                                                             src="{% static 'img/placeholder.svg' %}"/>#}
+                                {#                                                        <p>Gurgaon ,Haryana</p>#}
+                                {#                                                    </li>#}
+                                {#                                                </ul>#}
+                                {#                                            </div>#}
+                                {##}
+                                {#                                            <div class="col-md-12 dropdown-text">#}
+                                {#                                                <a href="#"><i aria-hidden="true" class="fa fa-quora"></i>3#}
+                                {#                                                    Questions</a>#}
+                                {#                                                <a href="#"><i aria-hidden="true" class="fa fa-commenting"></i>12#}
+                                {#                                                    Answers</a>#}
+                                {#                                                <a href="#"><img src="{% static 'img/bucket.svg' %}"/>146 Points</a>#}
+                                {#                                            </div>#}
+                                {##}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
+                                {#                                    <!---author-details-->#}
+                                {#                                    <div class="col-md-10 padding0">#}
+                                {#                                        <div class="col-md-12 author-details">#}
+                                {#                                            <h5>Kamesh Rao</h5>#}
+                                {#                                            <p>Asked:june 17,2019</p>#}
+                                {#                                        </div>#}
+                                {#                                        <div class="col-md-12 author-quote">#}
+                                {#                                            <a href="#"><h4>How do native speakers tell I’m foreign based on my English#}
+                                {#                                                alone?</h4></a>#}
+                                {#                                        </div>#}
+                                {#                                        <div class="col-md-12 padding0">#}
+                                {#                                            <p class="author-para">I’m a 19-year-old student from Malaysia. I’ve been#}
+                                {#                                                introduced to the language at a very young age and I’m capable of#}
+                                {#                                                conducting#}
+                                {#                                                any type of conversation. However, some of my English-speaking friends#}
+                                {#                                                on#}
+                                {#                                                the internet didn’t take too long to ..</p>#}
+                                {#                                        </div>#}
+                                {#                                        <div class="col-md-12 padding0">#}
+                                {#                                            <button class="author-button">English</button>#}
+                                {#                                            <button class="author-button">Language</button>#}
+                                {#                                        </div>#}
+                                {#                                        <div class="col-md-12 answer-sec">#}
+                                {#                                            <a href="#"> <i aria-hidden="true" class="fa fa-commenting"></i>3 Answer</a>#}
+                                {#                                            <a href="#"> <i aria-hidden="true" class="fa fa-eye"></i>5k Views</a>#}
+                                {#                                            <button>Answer</button>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
+                            </div>
+                            <div class="tab-pane fade in " id="questions">
+                                <div class="col-md-12 tabcontent-div">
+                                    <div class="col-md-2 padding0 tab-text dropdown">
+                                        <a class="dropbtn" href="#">
+                                            <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                        </a>
+                                        <div class="dropdown-content">
+                                            <div class="col-md-12 dropdown-image">
+                                                <a>
+                                                    <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-12 dropdown-name">
+                                                <h6>Kamesh Rao</h6>
+                                                <ul>
+                                                    <li>
+                                                        <img class="img-responsive"
+                                                             src="{% static 'img/placeholder.svg' %}"/>
+                                                        <p>Gurgaon ,Haryana</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-md-12 dropdown-text">
+                                                <a href="#"><i aria-hidden="true" class="fa fa-question-circle"></i>3
+                                                    Questions</a>
+                                                <a href="#"><i aria-hidden="true" class="fa fa-commenting"></i>12
+                                                    Answers</a>
+                                                <a href="#"><i aria-hidden="true" class="fa fa-eye"></i>146 Points</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!---author-details-->
+                                    <div class="col-md-10 padding0">
+                                        <div class="col-md-12 author-details">
+                                            <h5>Mr Mohit Saini</h5>
+                                            <p>Asked:june 16,2018</p>
+                                        </div>
+                                        <div class="col-md-12 author-quote">
+                                            <a href="#"><h4>Is this statement, “i see him last night” can be understood
+                                                as
+                                                “I saw him last night”?</h4></a>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <p class="author-para">In my local language (Bahasa Indonesia) there are no
+                                                verb-2 or past tense form as time tracker. So, I often forget to use the
+                                                past form of verb when speaking english. I saw him last night (correct)
+                                                I
+                                                see him last night ...</p>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <button class="author-button">English</button>
+                                            <button class="author-button">Language</button>
+                                        </div>
+                                        <div class="col-md-12 answer-sec">
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-commenting"></i> 4
+                                                Answer</a>
+                                            <a href="#"><i aria-hidden="true" class="fa fa-eye"></i>1k Views</a>
+                                            <button>Answer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!----second-que-->
+                                <div class="col-md-12 tabcontent-div">
+                                    <div class="col-md-2 padding0 tab-text dropdown">
+                                        <a class="dropbtn" href="#">
+                                            <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                        </a>
+                                        <div class="dropdown-content">
+                                            <div class="col-md-12 dropdown-image">
+                                                <a>
+                                                    <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-12 dropdown-name">
+                                                <h6>Kamesh Rao</h6>
+                                                <ul>
+                                                    <li>
+                                                        <img class="img-responsive"
+                                                             src="{% static 'img/placeholder.svg' %}"/>
+                                                        <p>Gurgaon ,Haryana</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-md-12 dropdown-text">
+                                                <a href="#"><i aria-hidden="true" class="fa fa-question-circle"></i>3
+                                                    Questions</a>
+                                                <a href="#"><i aria-hidden="true" class="fa fa-commenting"></i>12
+                                                    Answers</a>
+                                                <a href="#"><i aria-hidden="true" class="fa fa-eye"></i>146 Points</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!---author-details-->
+                                    <div class="col-md-10 padding0">
+                                        <div class="col-md-12 author-details">
+                                            <h5>Kamesh Rao</h5>
+                                            <p>Asked:june 17,2019</p>
+                                        </div>
+                                        <div class="col-md-12 author-quote">
+                                            <a href="#"><h4>How do native speakers tell I’m foreign based on my English
+                                                alone?</h4></a>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <p class="author-para">I’m a 19-year-old student from Malaysia. I’ve been
+                                                introduced to the language at a very young age and I’m capable of
+                                                conducting
+                                                any type of conversation. However, some of my English-speaking friends
+                                                on
+                                                the internet didn’t take too long to ..</p>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <button class="author-button">English</button>
+                                            <button class="author-button">Language</button>
+                                        </div>
+                                        <div class="col-md-12 answer-sec">
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-commenting"></i> 3
+                                                Answer</a>
+                                            <a href="#"><i aria-hidden="true" class="fa fa-eye"></i>5k Views</a>
+                                            <button>Answer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in" id="answer">
+                                <div class="col-md-12 tabcontent-div">
+                                    <div class="col-md-2 padding0 tab-text dropdown">
+                                        <a class="dropbtn" href="#">
+                                            <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                        </a>
+                                        <div class="dropdown-content">
+                                            <div class="col-md-12 dropdown-image">
+                                                <a>
+                                                    <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-12 dropdown-name">
+                                                <h6>Shubham Wadhwa</h6>
+                                                <ul>
+                                                    <li>
+                                                        <img class="img-responsive"
+                                                             src="{% static 'img/placeholder.svg' %}"/>
+                                                        <p>Gurgaon ,Haryana</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-md-12 dropdown-text">
+                                                <a href="#"><i aria-hidden="true" class="fa fa-question-circle"></i>3
+                                                    Questions</a>
+                                                <a href="#"><i aria-hidden="true" class="fa fa-commenting"></i>12
+                                                    Answers</a>
+                                                <a href="#"><i aria-hidden="true" class="fa fa-eye"></i>146 Points</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!---author-details-->
+                                    <div class="col-md-10 padding0">
+                                        <div class="col-md-12 author-details">
+                                            <h5>Sonu bhai</h5>
+                                            <p>Asked:june 16,2018</p>
+                                        </div>
+                                        <div class="col-md-12 author-quote">
+                                            <a href="#"><h4>Is this statement, “i see him last night” can be understood
+                                                as
+                                                “I saw him last night”?</h4></a>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <p class="author-para">In my local language (Bahasa Indonesia) there are no
+                                                verb-2 or past tense form as time tracker. So, I often forget to use the
+                                                past form of verb when speaking english. I saw him last night (correct)
+                                                I
+                                                see him last night ...</p>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <button class="author-button">English</button>
+                                            <button class="author-button">Language</button>
+                                        </div>
+                                        <div class="col-md-12 answer-sec">
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-commenting"></i>4 Answer</a>
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-eye"></i>1k Views</a>
+                                            <button>Answer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!----second-que-->
+                                <div class="col-md-12 tabcontent-div">
+                                    <div class="col-md-2 padding0 tab-text dropdown">
+                                        <a class="dropbtn" href="#">
+                                            <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                        </a>
+                                        <div class="dropdown-content">
+                                            <div class="col-md-12 dropdown-image">
+                                                <a>
+                                                    <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-12 dropdown-name">
+                                                <h6>Mr Neeraj Saini</h6>
+                                                <ul>
+                                                    <li>
+                                                        <img class="img-responsive"
+                                                             src="{% static 'img/placeholder.svg' %}"/>
+                                                        <p>Gurgaon ,Haryana</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-md-12 dropdown-text">
+                                                <a href="#"><i aria-hidden="true" class="fa fa-quora"></i>3
+                                                    Questions</a>
+                                                <a href="#"><i aria-hidden="true" class="fa fa-commenting"></i>12
+                                                    Answers</a>
+                                                <a href="#"><img src="{% static 'img/bucket.svg' %}"/>146 Points</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!---author-details-->
+                                    <div class="col-md-10 padding0">
+                                        <div class="col-md-12 author-details">
+                                            <h5>Kamesh Rao</h5>
+                                            <p>Asked:june 17,2019</p>
+                                        </div>
+                                        <div class="col-md-12 author-quote">
+                                            <a href="#"><h4>How do native speakers tell I’m foreign based on my English
+                                                alone?</h4></a>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <p class="author-para">I’m a 19-year-old student from Malaysia. I’ve been
+                                                introduced to the language at a very young age and I’m capable of
+                                                conducting
+                                                any type of conversation. However, some of my English-speaking friends
+                                                on
+                                                the internet didn’t take too long to ..</p>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <button class="author-button">English</button>
+                                            <button class="author-button">Language</button>
+                                        </div>
+                                        <div class="col-md-12 answer-sec">
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-commenting"></i>3 Answer</a>
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-eye"></i>5k Views</a>
+                                            <button>Answer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in" id="most_visited">
+                                <div class="col-md-12 tabcontent-div">
+                                    <div class="col-md-2 padding0 tab-text dropdown">
+                                        <a class="dropbtn" href="#">
+                                            <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                        </a>
+                                        <div class="dropdown-content">
+                                            <div class="col-md-12 dropdown-image">
+                                                <a>
+                                                    <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-12 dropdown-name">
+                                                <h6>Shubham Wadhwa</h6>
+                                                <ul>
+                                                    <li>
+                                                        <img class="img-responsive"
+                                                             src="{% static 'img/placeholder.svg' %}"/>
+                                                        <p>Gurgaon ,Haryana</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-md-12 dropdown-text">
+                                                <a href="#"><i aria-hidden="true" class="fa fa-question-circle"></i>3
+                                                    Questions</a>
+                                                <a href="#"><i aria-hidden="true" class="fa fa-commenting"></i>12
+                                                    Answers</a>
+                                                <a href="#"><i aria-hidden="true" class="fa fa-eye"></i>146 Points</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!---author-details-->
+                                    <div class="col-md-10 padding0">
+                                        <div class="col-md-12 author-details">
+                                            <h5>Sonu bhai</h5>
+                                            <p>Asked:june 16,2018</p>
+                                        </div>
+                                        <div class="col-md-12 author-quote">
+                                            <a href="#"><h4>Is this statement, “i see him last night” can be understood
+                                                as
+                                                “I saw him last night”?</h4></a>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <p class="author-para">In my local language (Bahasa Indonesia) there are no
+                                                verb-2 or past tense form as time tracker. So, I often forget to use the
+                                                past form of verb when speaking english. I saw him last night (correct)
+                                                I
+                                                see him last night ...</p>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <button class="author-button">English</button>
+                                            <button class="author-button">Language</button>
+                                        </div>
+                                        <div class="col-md-12 answer-sec">
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-commenting"></i>4 Answer</a>
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-eye"></i>1k Views</a>
+                                            <button>Answer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!----second-que-->
+                                <div class="col-md-12 tabcontent-div">
+                                    <div class="col-md-2 padding0 tab-text dropdown">
+                                        <a class="dropbtn" href="#">
+                                            <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                        </a>
+                                        <div class="dropdown-content">
+                                            <div class="col-md-12 dropdown-image">
+                                                <a>
+                                                    <img class="img-responsive" src="{% static 'img/author.jpg' %}"/>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-12 dropdown-name">
+                                                <h6>Kamesh Rao</h6>
+                                                <ul>
+                                                    <li>
+                                                        <img class="img-responsive"
+                                                             src="{% static 'img/placeholder.svg' %}"/>
+                                                        <p>Gurgaon ,Haryana</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-md-12 dropdown-text">
+                                                <a href="#"><i aria-hidden="true" class="fa fa-quora"></i>3
+                                                    Questions</a>
+                                                <a href="#"><i aria-hidden="true" class="fa fa-commenting"></i>12
+                                                    Answers</a>
+                                                <a href="#"><img src="{% static 'img/bucket.svg' %}"/>146 Points</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!---author-details-->
+                                    <div class="col-md-10 padding0">
+                                        <div class="col-md-12 author-details">
+                                            <h5>Kamesh Rao</h5>
+                                            <p>Asked:june 17,2019</p>
+                                        </div>
+                                        <div class="col-md-12 author-quote">
+                                            <a href="#"><h4>How do native speakers tell I’m foreign based on my English
+                                                alone?</h4></a>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <p class="author-para">I’m a 19-year-old student from Malaysia. I’ve been
+                                                introduced to the language at a very young age and I’m capable of
+                                                conducting
+                                                any type of conversation. However, some of my English-speaking friends
+                                                on
+                                                the internet didn’t take too long to ..</p>
+                                        </div>
+                                        <div class="col-md-12 padding0">
+                                            <button class="author-button">English</button>
+                                            <button class="author-button">Language</button>
+                                        </div>
+                                        <div class="col-md-12 answer-sec">
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-commenting"></i>3 Answer</a>
+                                            <a href="#"> <i aria-hidden="true" class="fa fa-eye"></i>5k Views</a>
+                                            <button>Answer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---Ask a Question--->
+                    <div class="col-md-3 col-xs-12 col-sm-12 aska-div">
+                        <div class="col-md-12  col-xs-12 col-sm-12 ask-question">
+                            <button class="btn btn-info btn-lg btn-insign1" data-target="#ask_a_question"
+                                    data-toggle="modal"
+                                    type="button">Ask A Question
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal ask-modal fade" id="ask_a_question" role="dialog">
+                                <div class="modal-dialog askque">
+
+                                    <!-- Modal content-->{% if user.is_authenticated %}
+                                    <div class="modal-content">
+                                        <div class="modal-header ask-head">
+                                            <div class="col-md-10 col-sm-10 col-xs-10 edit-question">
+                                                <h2>Edit Questions</h2>
+                                                <p>How Likely are you to recommend our product...</p>
+                                            </div>
+                                            <h4 class="modal-title">
+                                            </h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 body-main">
+                                                <div class="col-md-5 col-sm-5 col-xs-5 main-image">
+                                                </div>
+
+                                                <form action="{% url 'taskapp:question_create' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <div class="col-md-7 col-sm-7 col-xs-7">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                            <div class="form-group question-type">
+                                                                {#                                                                <p> FORM Display {{ form.as_p }}</p>#}
+                                                                <label>Question Type:</label>
+
+                                                                <select name="question_type">
+
+                                                                    {% for org in categories %}
+                                                                        <option value="{{ org.id }}">{{ org.name }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+
+                                                            </div>
+                                                            <select name="name" hidden>
+                                                                <option value="{{ user.id }}" selected></option>
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                            <div class="form-group how-likely">
+                                                                <label>Title:</label>
+                                                                <input type="text" name="title"
+                                                                       placeholder="...."/>
+                                                            </div>
+                                                        </div>
+                                                        {#                                                <div class="col-md-12 col-sm-12 col-xs-12">#}
+                                                        {#                                                    <div class="form-group how-likely">#}
+                                                        {#                                                        <label> SubTitle:</label>#}
+                                                        {#                                                        <input type="text" name=""/>#}
+                                                        {#                                                    </div>#}
+                                                        {#                                                </div>#}
+
+
+                                                        <div class="col-sm-12 col-md-12 col-xs-12 button-div">
+                                                            <input type="submit" value="Submit"/>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="modal-content">
+                                        <div class="modal-header ask-head">
+                                            <button class="close active askclotiv" data-dismiss="modal" type="button">
+                                                &times;
+                                            </button>
+                                            <h4 class="modal-title">
+                                            </h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="col-md-12">
+
+                                                <div class="col-md-12 username">
+                                                    <div class="form-group">
+                                                        <label for="user">Username:</label>
+                                                        <input class="form-control" id="text" type="text"/>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="password">Password:</label>
+                                                        <input class="form-control" type="password"/>
+                                                    </div>
+                                                    <div class="col-md-12 padding0">
+                                                        <div class="col-md-6 padding0 remember-div">
+                                                            <label><input type="checkbox" value=""> Remember Me!</label>
+                                                        </div>
+                                                        <div class="col-md-6 forget-password padding0">
+                                                            <a href="#">
+                                                                <h6>Forget Your Password? </h6>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <button class="inlog ask-log">Log In</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--related questions--->
+                        <div class="col-md-12 related-que2">
+                            <h5>Related Question</h5>
+                            <div class="row related-member">
+                                <div class="col-md-12  padding0">
+
+                                    <div class="col-md-12 related-que1">
+                                    <div class="col-md-10 related-question">
+                                        {% for i in post %}
+                                            <h5><a href="#">{{ i.title }}</a></h5>
+                                        {% endfor %}
+                                    </div>
+                                        {#                                        <div class="col-md-2 related-que">#}
+                                        {#                                            <img src="{% static 'img/author.jpg' %}">#}
+                                        {#                                        </div>#}
+                                        {#                                        <div class="col-md-10 related-question">#}
+                                        {#                                            <h5>How to approach a job at a company ?</h5>#}
+                                        {#                                            <a href="#"><i aria-hidden="true" class="fa fa-commenting"></i>4 Answers</a>#}
+                                        {#                                        </div>#}
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <!--top members-->
+                            <div class="col-md-12 top-members">
+                                <h5><img src="{% static 'img/add-contacts.svg' %}">Top Members </h5>
+                                <div class="row top-member-row">
+                                    {% for i in user|top_mem %}
+                                        <div class="col-md-12 top-div">
+                                            <div class="col-md-2 padding0 top-members1">
+                                                <a href="#"> <img class="img-responsive"
+                                                                  src="{{ i.image.url }}"/></a>
+                                            </div>
+                                            <div class="col-md-8 top-members2">
+                                                <a href="#">
+                                                    <h4><i aria-hidden="true"
+                                                           class="fa fa-user"></i>{{ i.get_full_name }}</h4>
+                                                    <h5>{{ i.User.count }} Questions</h5>
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+{% endblock %}
+
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+{% load static %}
+{% block content %}
+    <div class="container-fluid mainheader-sec" style="display:None;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-2 logo">
+                    <a href="#">
+                        <img class="img-responsive" src="{% static 'img/logo.png' %}"/>
+                    </a>
+                </div>
+                <div class="col-md-8 texttag">
+                    <a href="#"><h5>Home</h5></a>
+                    <a href="#"><h5>About us </h5></a>
+                    <a href="#"><h5>Contact us</h5></a>
+                    <div class="search-container">
+                        <form action="/action_page.php">
+                            <input name="search" placeholder="Type of Search.." type="text">
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-1 padding0">
+                    <button class="btn btn-info btn-lg btn-insign" data-target="#signin" data-toggle="modal"
+                            type="button">Sign in
+                    </button>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-info btn-lg btn-upsign" data-target="#signup" data-toggle="modal"
+                            type="button">Sign up
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-inverse header">
+    <div class="container-fluid  padding0">
+        <div class="col-md-12 padding-xs-0">
+            <div class="col-md-3 col-sm-2 col-xs-12">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#">
+                        <img class="img-responsive logo-image" src="{% static 'img/logo.png' %}"/>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-10 col-xs-12">
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <div class="col-sm-9 col-xs-12">
+                        <ul class="nav navbar-nav">
+                            <li class="active homepadd"><a href="{% url 'taskapp:index' %}">Home</a></li>
+                            <li class="homepadd"><a href="#">About Us</a></li>
+                            <li class="homepadd1">
+                                <form action="#" class="side-div">
+                                    <input class="form-control" name="search" placeholder="Type of Search.."
+                                           type="text">
+                                    <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    {% if user.is_authenticated %}
+                        <h3 style="color: white">Hello : {{ user.firstname }}</h3>
+                        <div class="col-md-2 col-sm-2 col-xs-6"><a href="{% url 'taskapp:logout' %}">
+                            <button class="btn btn-info btn-lg btn-insign"
+                                    type="button">Sign out
+                            </button>
+                        </a>
+                        </div>
+                        {#                    {% endif %}#}
+                    {% else %}
+                        <div class="col-md-2 col-sm-2 col-xs-6">
+                            <button class="btn btn-info btn-lg btn-insign" data-target="#signin" data-toggle="modal"
+                                    type="button">Sign in
+                            </button>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-6 padding0">
+                            <button class="btn btn-info btn-lg btn-upsign" data-target="#signup" data-toggle="modal"
+                                    type="button">Sign up
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Sign In Modal -->
+<div class="modal fade model-insign" id="signin" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close active" data-dismiss="modal" type="button">&times;</button>
+                <h4>Sign in</h4>
+                <p>Login to our social questions & Answers Engine to ask questions answer
+                    people’s questions & connect with other people.</p>
+            </div>
+
+            <div class="modal-body">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-5 col-xs-5 col-sm-5 modeldiv">
+
+                        <a href="{% url 'taskapp:signup' %}">
+                            <button>sign up here</button>
+                        </a>
+                    </div>
+                    <div class="col-md-7 col-xs-7 col-sm-7 username">
+                        <form action="{% url "taskapp:login" %} " method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="usr">Email:</label>
+                                <input class="form-control user-xs" id="usr" type="email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password:</label>
+                                <input class="form-control" id="pwd" type="password" name="password">
+                            </div>
+
+                            <div class="col-md-12 padding0">
+                                <div class="col-md-6 padding0">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="">Remember Me!</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 forget-password padding0">
+                                    <a href="#">
+                                        <h6>Forget Your Password? </h6>
+                                    </a>
+                                </div>
+                            </div>
+                            <button class="inlog">Log In</button>
+                        </form>
+                        <div>
+                            {% for message in messages %}
+                            <h3> {{ message }}</h3>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sign Up Modal -->
+<div class="modal fade model-upsign" id="signup" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content content-padd">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" type="button">&times;</button>
+                <h4>Sign up</h4>
+                <p>Login to our social questions & Answers Engine to ask questions answer people’s
+                    questions & connect with other people.</p>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <div class="col-md-5 col-xs-5 col-sm-5 upsign-div">
+                        <button class="btn">Have an account? Sign in</button>
+                    </div>
+                    <div class="col-md-7 col-xs-12 col-sm-12 upsign-userdiv">
+                        <form action="{% url "taskapp:signup" %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {#                            {{ form.as_p }}#}
+                            <div class="form-group">
+                                <label for="user">firstname:</label>
+                                <input class="form-control" id="fname" type="text" name="firstname" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="user">lastname:</label>
+                                <input class="form-control" id="lname" type="text" name="lastname" required>
+                            </div>
+                            {#                            <div class="form-group">#}
+                            {#                                <label for="user">Username:</label>#}
+                            {#                                <input class="form-control" id="user" type="text" name="username">#}
+                            {#                            </div>#}
+                            <div class="form-group">
+                                <label for="e-mail">E-mail:</label>
+                                <input class="form-control" id="e-mail" type="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input class="form-control" id="password" type="password" name="password"  required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Confirm Password:</label>
+                                <input class="form-control" id="confirm password" type="password" name="password2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">User image:</label>
+                                <input class="form-control"  type="file" name="image" required>
+                            </div>
+
+                            {#                            <div class="form-group">#}
+                            {#                                <label for="password">Confirm Password:</label>#}
+                            {#                                <input class="form-control" id="confirm_password" type="password" name="password2">#}
+                            {#                            </div>#}
+
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">I agree with the T&C</label>
+                            </div>
+                            <button>Sign up</button>
+                        </form>
+                        <div>
+                            {% for message in messages %}
+                            <h3> {{ message }}</h3>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
